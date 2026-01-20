@@ -70,6 +70,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric();
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -242,8 +243,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     double rotationSpeed;
+    boolean tv = vision.getHasTarget();
+
 
     public double alignment() {
+        
+        if (tv = false)
+        {
+            return 0.3;
+        }
+        else{
         
             double tx = vision.getTX();
 
@@ -254,6 +263,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             }
 
             return rotationSpeed;
+        }
         }
 
 
