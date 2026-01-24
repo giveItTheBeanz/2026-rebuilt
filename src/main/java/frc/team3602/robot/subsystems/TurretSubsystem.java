@@ -3,6 +3,7 @@ package frc.team3602.robot.subsystems;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -19,6 +20,8 @@ public class TurretSubsystem extends SubsystemBase {
 
     //Motor
     private final TalonFX turretMotor = new TalonFX(TurretConstants.kTurretMotorID);
+    private final CANcoder turretEncoder = new CANcoder(TurretConstants.kTurretEncoderID);
+
 
     public TurretSubsystem() {
         //Zero Encoder
@@ -27,18 +30,21 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     //Encoder
-    public Double getEncoder() {
-    return (turretMotor.getRotorPosition().getValueAsDouble() * 36.0);
-    }
+  public Double getEncoder() {
+    return (turretMotor.getRotorPosition().getValueAsDouble() * 18);
+  }
 
     //Vision
     public final Vision vision = new Vision();
 
     //Set Point *This number needs to be changed*
-    public double setAngle = 90;
+    public double setAngle = 0;
 
     //Controllers *These PID values need to be changed*
-    private final PIDController turretController = new PIDController(1, 0.0, 0.0);
+    private final PIDController turretController = new PIDController(.05, 0.0, 0);
+    private final PIDController aimController = new PIDController(.02, 0.0, 0);
+
+
 
     //Commands
     public Command setAngle(double setAngle) {
@@ -59,28 +65,85 @@ public class TurretSubsystem extends SubsystemBase {
         });
     }
 
+    public Command turretAlignment() {
+        return runOnce(() -> {
+            setAngle = setAngle + vision.getTurretTX();
+        });
+    }
+
+    double voltage;
+
+    public Command track() {
+        return run(() -> {
+            if (vision.getTurretHasTarget()) {
+                setAngle = setAngle - aimController.calculate(vision.getTurretTX(), 0);
+            }
+            voltage = turretController.calculate(getEncoder(), setAngle);
+            if (voltage > .4){
+                voltage = .4;
+            }
+            else if (voltage < -.4){
+                voltage = -.4;
+            }
+            turretMotor.setVoltage(voltage);
+        }
+
+        );
+
+    }
+
     double rotationSpeed;
 
     //Calculations
-        public double rAlignment() {
+        // public double rAlignment() {
         
-            double tx = vision.getTX();
+        //     double tx = vision.getTX();
 
-            rotationSpeed = turretController.calculate(tx, 0);
+        //     rotationSpeed = turretController.calculate(tx, 0);
 
-            if (Math.abs(rotationSpeed) < 0.5) {
-                rotationSpeed = 0;
-            }
+        //     if (Math.abs(rotationSpeed) < 0.5) {
+        //         rotationSpeed = 0;
+        //     }
 
-            return rotationSpeed;
+        //     return rotationSpeed;
         
-        }
+        // }
+
+
+         
+public double rAlignment() {
+    // Rotation error in degrees (positive = tag is to the right, for example)
+    double rotationErrorDeg = vision.getTX();
+
+    // Tunable gain: volts per degree
+    double kP = 0.1; // example value
+
+    double voltage = rotationErrorDeg * kP;
+
+    // Deadband
+    if (Math.abs(voltage) < 0.3) {
+        voltage = 0.0;
+    }
+
+    // Clamp to legal voltage range
+    voltage = Math.max(-12.0, Math.min(12.0, voltage));
+
+    return voltage;
+}
+
+
 
     //Periodic
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Turret Encoder", getEncoder());
+        SmartDashboard.putNumber("Turret Voltage", voltage);
+        SmartDashboard.putNumber("Set Angle", setAngle);
+        SmartDashboard.putNumber("Turret Set Angle", vision.getTurretTX());
+        SmartDashboard.putNumber("Aim PID", aimController.calculate(vision.getTurretTX(), 0));
     }   
+
+
 
     //Config
         private void configPivotSubsys() {

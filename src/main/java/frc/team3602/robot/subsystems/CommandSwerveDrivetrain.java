@@ -59,6 +59,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     /*Vision*/
     public final Vision vision = new Vision();
+    public final TurretSubsystem turret = new TurretSubsystem();
         public final CommandXboxController joystick = new CommandXboxController(0);
 
 
@@ -273,6 +274,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void periodic() {
         SmartDashboard.putNumber("Rotation Speed", this.rotationSpeed);
         SmartDashboard.putNumber("my heading", vision.getTX());
+        SmartDashboard.putNumber("turret angle", turret.getEncoder());
         
         /*
          * Periodically try to apply the operator perspective.

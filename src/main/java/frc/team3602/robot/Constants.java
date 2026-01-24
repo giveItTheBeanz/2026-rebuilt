@@ -30,6 +30,7 @@ public final class Constants {
     public final class TurretConstants {
         //Motor ID
         public final static int kTurretMotorID = 9;
+        public final static int kTurretEncoderID = 10;
 
         //Motor Speeds
         public final static double kTurretMotorSpeed = .5;

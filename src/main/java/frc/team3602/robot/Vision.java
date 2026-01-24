@@ -19,8 +19,16 @@ public class Vision {
         return LimelightHelpers.getTX("limelight-primary");
     }
 
+    public double getTurretTX() {
+        return LimelightHelpers.getTX("limelight-turret");
+    }
+
     public boolean getHasTarget() {
         return LimelightHelpers.getTV("limelight-primary");
+    }
+
+        public boolean getTurretHasTarget() {
+        return LimelightHelpers.getTV("limelight-turret");
     }
 
     public double getTY() {
