@@ -35,16 +35,5 @@ public final class Constants {
         public final static double kTurretMotorSpeed = .5;
     }
 
-    public final class spindexerConstants {
-        //MotorID
-        public final static int kSpindexerMotorID = 10;
-        // public final static int kReceiveMotorID = 11;
-
-        //Motor Speeds
-        public final static double kSpindexerMotorSpeed = 0.1;
-        public final static double kStopSpindexerMotorSpeed = 0;
-        // public final static double kRecieveFuelSpeed = 0.5;
     
-        
-    }
 }

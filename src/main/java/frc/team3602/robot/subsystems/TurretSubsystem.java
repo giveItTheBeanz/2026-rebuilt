@@ -16,12 +16,19 @@ import frc.team3602.robot.Vision;
 
 public class TurretSubsystem extends SubsystemBase {
 
+
     //Motor
     private final TalonFX turretMotor = new TalonFX(TurretConstants.kTurretMotorID);
 
+    public TurretSubsystem() {
+        //Zero Encoder
+        turretMotor.setPosition(0);
+
+    }
+
     //Encoder
     public Double getEncoder() {
-    return (turretMotor.getRotorPosition().getValueAsDouble() * (Math.PI * 2.15) / 360) * -1.0;
+    return (turretMotor.getRotorPosition().getValueAsDouble() * 36.0);
     }
 
     //Vision
@@ -31,7 +38,7 @@ public class TurretSubsystem extends SubsystemBase {
     public double setAngle = 90;
 
     //Controllers *These PID values need to be changed*
-    private final PIDController turretController = new PIDController(0., 0.0, 0.0);
+    private final PIDController turretController = new PIDController(1, 0.0, 0.0);
 
     //Commands
     public Command setAngle(double setAngle) {
