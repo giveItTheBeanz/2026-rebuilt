@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drive to Shoot Left Short"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Move to Center Left"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Intake Center Left"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Return from Center Left"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Move to Climb Left"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Left Autons",
+  "choreoAuto": false
+}

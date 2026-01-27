@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drive to Shoot Right Short"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Move to Center Right"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Move Across Center Right"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Return From Center Right"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Move to Climb Right"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Right Autons",
+  "choreoAuto": false
+}

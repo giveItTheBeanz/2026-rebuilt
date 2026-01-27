@@ -15,19 +15,19 @@ public class SpindexerSubsystem extends SubsystemBase {
     /* Motors */
 
     private static TalonFX spindexerMotor;
-    // private static TalonFX receiveMotor;
+    private static TalonFX receiveMotor;
 
     /* Constructor */
 
     public SpindexerSubsystem() {
 
         spindexerMotor = new TalonFX(spindexerConstants.kSpindexerMotorID);
-        // receiveMotor = new TalonFX(spindexerConstants.kReceiveMotorID);
+        receiveMotor = new TalonFX(spindexerConstants.kReceiveMotorID);
     }
 
     /* Commands */
 
-    public Command transferFuel() {
+    public Command setSpindexerSpeed(double SpindexerSpeed) {
         return runOnce(() -> {
             spindexerMotor.set(spindexerConstants.kSpindexerMotorSpeed);
         });
@@ -39,11 +39,11 @@ public class SpindexerSubsystem extends SubsystemBase {
         });
     }
 
-    // public Command receiveFuel() {
-    //     return runOnce(() -> {
-    //         receiveMotor.set(spindexerConstants.kRecieveFuelSpeed);
-    //     });
-    // }
+    public Command setReceiveSpeed(double ReceiveSpeed) {
+        return runOnce(() -> {
+            receiveMotor.set(spindexerConstants.kRecieveFuelSpeed);
+        });
+    }
 
     /* Periodic */
 
